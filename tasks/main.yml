@@ -1,10 +1,12 @@
 ---
-- name: Create DNS records for Citrix
+#####################################
+### Create DNS Records
+#####################################
+
+- name: Create DNS Records
   community.windows.win_dns_record:
-    name: '{{ item }}'
-    type: A
-    value: 10.10.1.101
+    name: '{{ item.name }}'
+    type: '{{ item.name }}'
+    value: '{{ item.ip }}'
     zone: '{{ dc_dns_zone_name }}'
-  loop:
-    - sf
-    - director
+  with_items: "{{ dc_dns_records }}"
